@@ -1,16 +1,17 @@
-package lrnwebgo
+package main
 
 import (
+	"github.com/julienschmidt/httprouter"
 	"net/http"
+	"log"
 	"lrnwebgo"
 )
 
 
 func main()  {
-	http.HandleFunc("/", lrnwebgo.Home);
-
-	err := http.ListenAndServe(":8000", nil)
-	if err != nil {
-		panic(err)
-	}
+	router := httprouter.New()
+	router.GET("/", lrnwebgo.Index)
+	router.GET("/welcome/:name", lrnwebgo.Detail)
+	log.Fatal(http.ListenAndServe(":8000", router))
 }
+
